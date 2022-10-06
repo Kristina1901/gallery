@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import './Navigation.scss'
+import './Navigation.scss';
 const Navigation = () => (
-  <nav className='header'>
+  <nav className="header">
     <NavLink
-    to="/"
-    end
+      to="/"
+      end
       className={({ isActive }) => (isActive ? 'activeLink' : 'link')}
     >
       Home
@@ -13,7 +13,6 @@ const Navigation = () => (
     <NavLink
       to="/favorite"
       className={({ isActive }) => (isActive ? 'activeLink' : 'link')}
-     
     >
       Favorite
     </NavLink>
