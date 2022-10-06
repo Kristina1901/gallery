@@ -1,0 +1,47 @@
+.divStyleSingle {
+    margin-top: 20px;
+    display: block;
+    height: 670px;
+  };
+  .nofound {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #8c8c8c;
+    background: #f8f8f7;
+    border-radius: 10px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 20px;
+  }
+  .wrapper {
+    padding: 15px;
+  }
+  .gallery {
+    display: grid;
+    max-width: calc(100vw - 48px);
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-gap: 16px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+.galleryItem {
+ border-radius: 5px;
+  }
+  .galleryListItem {
+    width: 360px;
+    height: 240px;
+    position: relative;
+  }
+  .galleryListItem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
