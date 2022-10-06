@@ -1,0 +1,237 @@
+@import "../../Variables/Variables.scss";
+.container {
+    padding: 15px;
+}
+.select {
+   display: flex;
+   justify-content: end;
+   margin-bottom: 20px;
+}
+.galleryContainer {
+display: grid;
+grid-template-columns: 1fr;
+grid-gap: 16px;
+padding-bottom: 24px;
+}
+.gallery {
+    display: grid;
+    max-width: calc(100vw - 48px);
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-gap: 16px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+.galleryItem {
+ border-radius: 5px;
+  }
+.modalName {
+    position: absolute;
+    width: 100%;
+    background: transparent;
+    height: 100%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .buttonLike {
+    background: #ffffff;
+    border-radius: 10px;
+    background-image: url('./heart.svg');
+    border: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 40px;
+    height: 40px;
+    display: none;
+    cursor: pointer;
+  }
+  .galleryListItem {
+    width: 360px;
+    height: 240px;
+    position: relative;
+  }
+  .galleryListItem:hover .modalName {
+    background: rgba(255, 134, 142, 0.6);
+    border-radius: 5px;
+    width: 360px;
+    height: 240px;
+  }
+  .galleryListItem:hover .buttonLike {
+    display: block;
+  }
+  .galleryListItem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .button {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    background:$pinkColorBackground;
+    border: none;
+    border-radius: 10px;
+    color: $pinkColorNote;
+    font-family: Jost;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 16px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    text-transform: uppercase;
+    margin: 5px;
+    cursor: pointer;
+  }
+  .buttonDots {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    background:$pinkColorBackground;
+    border: none;
+    border-radius: 10px;
+    color: $pinkColorNote;
+    font-family: Jost;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 16px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    text-transform: uppercase;
+    margin: 5px;
+    cursor: pointer;
+  }
+  .buttonPrev {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    background:$pinkColorBackground;
+    border: none;
+    border-radius: 10px;
+    color: $pinkColorNote;
+    font-family: Jost;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 16px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    text-transform: uppercase;
+    margin: 5px;
+    cursor: pointer;
+  }
+  .buttonNext {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    background:$pinkColorBackground;
+    border: none;
+    border-radius: 10px;
+    color: $pinkColorNote;
+    font-family: Jost;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 16px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    text-transform: uppercase;
+    margin: 5px;
+    cursor: pointer;
+  }
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+  }
+  .button:hover{
+    background: $pinkColorNote;
+    color: white;
+  }
+  .buttonPrev:hover{
+    background: $pinkColorNote;
+    color: white;
+  }
+  .buttonNext:hover{
+    background: $pinkColorNote;
+    color: white;
+  }
+  .buttonDots:hover{
+    background: $pinkColorNote;
+    color: white;
+  }
+  .buttonDisable {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    background:$grayColorDisableBackground;
+    border: none;
+    border-radius: 10px;
+    color:$grayColordisableNote;
+    font-family: Jost;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 16px;
+    position: relative;
+    text-transform: uppercase;
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+  }
+  .activePage {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    background:$pinkColorNote;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-family: Jost;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 16px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    text-transform: uppercase;
+    margin: 5px;
+    cursor: pointer;
+  }
+  .pageLink{
+   background-color:transparent;
+    display: block;
+    padding: 10px;
+    top: 0;
+    left: 0;
+  }
+  .pageLinkWord{
+    background-color:transparent;
+     display: block;
+     padding: 10px;
+     top: 0;
+     left: 0;
+   }
