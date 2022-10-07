@@ -47,9 +47,9 @@ const HomePage = ({ filterArray }) => {
     setCurrentPage(num);
   };
   function formatted(img) {
-    let result = imageConverter._withOutputFormat(img, 'webp')
-    let photo = imageConverter._withQuality(result, 'pixelated')
-    return photo
+    const src = `https://picsum.photos/id//${img}/${360}/${240}`;
+    let result = imageConverter._withOutputFormat(src, 'webp')
+    return result
 
   }
   function pagination () {
@@ -99,7 +99,7 @@ const HomePage = ({ filterArray }) => {
                     className="galleryItem"
                     alt={author}
                     height={'240px'}
-                    src={formatted(download_url)}
+                    src={formatted(id)}
                     width={'360px'}
                   />
                 </li>
