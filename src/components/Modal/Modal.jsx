@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.scss';
 const modalRoot = document.querySelector('#modalRoot');
-
 export default function Modal({ onClose, pic }) {
   useEffect(() => {
     const handleKeyDown = e => {
@@ -23,11 +22,16 @@ export default function Modal({ onClose, pic }) {
       window.removeEventListener('click', handleClickAway);
     };
   });
+  function formatted(img) {
+    const src = `https://picsum.photos/id//${img}/${1000}/${768}`;
+    return src
+
+  }
 
   return createPortal(
     <div className='overlay'>
       <div className='modal'>
-        <img src={pic} alt="" width='1000px'/>
+        <img src={formatted(pic)} alt="" width='1000px'/>
       </div>
     </div>,
     modalRoot
