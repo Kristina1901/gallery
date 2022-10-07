@@ -56,7 +56,7 @@ const Favorite = ({ array }) => {
               height={'240px'}
               src={download_url}
               width={'360px'}
-              onClick={() => {setBigPic(download_url); setShowModal(true)}}
+              onClick={() => {setBigPic(formatted(id)); setShowModal(true)}}
             />
           </li>
         ))}
