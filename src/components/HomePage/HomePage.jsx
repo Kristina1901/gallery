@@ -31,13 +31,13 @@ const HomePage = ({ filterArray }) => {
         .then(data => setPhotos(data))
         .then(setLoading(false));
     }
-    if(selectedOption > 20 && currentPage > 17) {
+    if(selectedOption > 20 && currentPage ===50) {
        setCurrentPage(1)
     }
-    if(selectedOption > 60 && currentPage > 13) {
+    if(selectedOption > 40 && currentPage === 25) {
       setCurrentPage(1)
    }
-   if(selectedOption > 80 && currentPage > 10) {
+   if(selectedOption > 80 && currentPage ===13) {
     setCurrentPage(1)
  }
   
