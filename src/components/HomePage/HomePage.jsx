@@ -5,7 +5,7 @@ import Select from 'react-select';
 import limit from '../../select/limit';
 import './HomePage.scss';
 import Loader from '../Loader/Loader';
-
+import imageConverter from 'akamai-image-converter'
 const options = [
   { value: 20, label: 'Limit: 20' },
   { value: 40, label: 'Limit: 40' },
@@ -33,6 +33,12 @@ const HomePage = ({ filterArray }) => {
     let num = data.selected + 1;
     setCurrentPage(num);
   };
+  function formatted(img) {
+    let result = imageConverter._withOutputFormat(img, 'webp')
+    let photo = imageConverter._withQuality(result, 'pixelated')
+    return photo
+
+  }
   return (
     <div className="container">
       <div className="select">
@@ -61,7 +67,7 @@ const HomePage = ({ filterArray }) => {
                     className="galleryItem"
                     alt={author}
                     height={'240px'}
-                    src={download_url}
+                    src={formatted(download_url)}
                     width={'360px'}
                   />
                 </li>
