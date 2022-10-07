@@ -87,7 +87,7 @@ const HomePage = ({ filterArray }) => {
         {loading === false ? (
           <ul className="gallery">
             {photos &&
-              photos.map(({ id, author, download_url }) => (
+              photos.map(({ id, author}) => (
                 <li key={id} className="galleryListItem">
                   <div className="modalName">
                     <button
