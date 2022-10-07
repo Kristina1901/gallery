@@ -19,15 +19,28 @@ const HomePage = ({ filterArray }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOption, setselectedOption] = useState(20);
   useEffect(() => {
-    if (currentPage === 1) {
-      getPhotos(1, 100).then(data => setPhotos(data.slice(0, selectedOption)));
+    if (currentPage === 1 && selectedOption === 20) {
+      getPhotos(1, 20).then(data => setPhotos(data));
     }
-    if (currentPage !== 1) {
+    if (currentPage === 1 && selectedOption !== 20) {
+      getPhotos(1, selectedOption).then(data => setPhotos(data));
+    }
+    if (currentPage !== 1 || !selectedOption) {
       setLoading(true);
-      getPhotos(currentPage, 100)
-        .then(data => setPhotos(data.slice(0, selectedOption)))
+      getPhotos(currentPage, selectedOption)
+        .then(data => setPhotos(data))
         .then(setLoading(false));
     }
+    if(selectedOption > 20 && currentPage > 17) {
+       setCurrentPage(1)
+    }
+    if(selectedOption > 60 && currentPage > 13) {
+      setCurrentPage(1)
+   }
+   if(selectedOption > 80 && currentPage > 10) {
+    setCurrentPage(1)
+ }
+  
   }, [currentPage, selectedOption]);
   const handlePageClick = data => {
     let num = data.selected + 1;
@@ -38,6 +51,25 @@ const HomePage = ({ filterArray }) => {
     let photo = imageConverter._withQuality(result, 'pixelated')
     return photo
 
+  }
+  function pagination () {
+    let num = 0
+    if (selectedOption === 20) {
+      num = 50
+    }
+    if(selectedOption === 40) {
+      num = 25
+    }
+    if(selectedOption === 60) {
+      num = 17
+    }
+    if(selectedOption === 80) {
+      num = 13
+    }
+    if(selectedOption === 100) {
+      num = 10
+    }
+    return num
   }
   return (
     <div className="container">
@@ -80,7 +112,7 @@ const HomePage = ({ filterArray }) => {
           previousLabel={'prev'}
           nextLabel={'next'}
           breakLabel={'...'}
-          pageCount={10}
+          pageCount={pagination()}
           marginPagesDisplayed={2}
           onPageChange={handlePageClick}
           pageClassName="button"
@@ -91,7 +123,7 @@ const HomePage = ({ filterArray }) => {
           activeClassName="activePage "
           previousLinkClassName="pageLinkWord"
           nextClassName={
-            currentPage === 10 
+            currentPage === pagination()
               ? 'buttonDisable'
               : 'buttonNext'
           }
