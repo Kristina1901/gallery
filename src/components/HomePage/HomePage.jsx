@@ -91,11 +91,11 @@ const HomePage = ({ filterArray }) => {
           activeClassName="activePage "
           previousLinkClassName="pageLinkWord"
           nextClassName={
-            currentPage !== 1 && photos.length < selectedOption
+            currentPage === 10 
               ? 'buttonDisable'
               : 'buttonNext'
           }
-          nextLinkClassName="pageLinkWord{"
+          nextLinkClassName="pageLinkWord"
         />
       </div>
     </div>
