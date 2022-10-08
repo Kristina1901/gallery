@@ -4,7 +4,6 @@ import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
 import limit from '../../select/limit';
 import './HomePage.scss';
-import Loader from '../Loader/Loader';
 import imageConverter from 'akamai-image-converter'
 const options = [
   { value: 20, label: 'Limit: 20' },
