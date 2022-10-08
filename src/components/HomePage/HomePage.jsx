@@ -35,7 +35,7 @@ const HomePage = ({ filterArray }) => {
    }
     if (currentPage !== 1 && selectedOption !== prev) {
       setCurrentPage(1)
-      getPhotos(1, 20).then(data => setPhotos(data));
+      getPhotos(1, selectedOption).then(data => setPhotos(data));
     }
     if (currentPage !== 1 && selectedOption === prev) {
     getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
