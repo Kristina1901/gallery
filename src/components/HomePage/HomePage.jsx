@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import { getPhotos } from '../../services/photo-api';
 import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
@@ -6,6 +6,7 @@ import limit from '../../select/limit';
 import './HomePage.scss';
 import Loader from '../Loader/Loader';
 import imageConverter from 'akamai-image-converter'
+import usePrevious from '../Hook'
 const options = [
   { value: 20, label: 'Limit: 20' },
   { value: 40, label: 'Limit: 40' },
@@ -18,30 +19,29 @@ const HomePage = ({ filterArray }) => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOption, setselectedOption] = useState(20);
+  const prev = usePrevious(selectedOption)
   useEffect(() => {
-    if (currentPage === 1 && selectedOption === 20) {
+      if (currentPage === 1 && selectedOption === 20 && prev === undefined) {
       getPhotos(1, 20).then(data => setPhotos(data));
     }
-    if (currentPage === 1 && selectedOption !== 20) {
-      getPhotos(1, selectedOption).then(data => setPhotos(data));
+    if (currentPage === 1 && selectedOption !== prev && selectedOption > 20) {
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
-    if (currentPage !== 1 || !selectedOption) {
+    if (currentPage < 1 && selectedOption === 20) {
       setLoading(true);
       getPhotos(currentPage, selectedOption)
         .then(data => setPhotos(data))
         .then(setLoading(false));
-    }
-    if(selectedOption > 20 && currentPage ===50) {
-       setCurrentPage(1)
-    }
-    if(selectedOption > 40 && currentPage === 25) {
-      setCurrentPage(1)
    }
-   if(selectedOption > 80 && currentPage ===13) {
-    setCurrentPage(1)
- }
-  
-  }, [currentPage, selectedOption]);
+    if (currentPage !== 1 && selectedOption !== prev) {
+      setCurrentPage(1)
+      getPhotos(1, 20).then(data => setPhotos(data));
+    }
+    if (currentPage !== 1 && selectedOption === prev) {
+    getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    }
+   
+  }, [currentPage, selectedOption, prev]);
   const handlePageClick = data => {
     let num = data.selected + 1;
     setCurrentPage(num);
@@ -109,6 +109,7 @@ const HomePage = ({ filterArray }) => {
           <Loader />
         )}
         <ReactPaginate
+         forcePage={currentPage-1}	
           previousLabel={'prev'}
           nextLabel={'next'}
           breakLabel={'...'}

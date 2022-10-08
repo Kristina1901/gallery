@@ -23,7 +23,7 @@ export default function Modal({ onClose, pic }) {
     };
   });
   function formatted(img) {
-    const src = `https://picsum.photos/id//${img}/${1000}/${768}`;
+    const src = `https://picsum.photos/id//${img}/${1010}/${768}`;
     return src
 
   }
