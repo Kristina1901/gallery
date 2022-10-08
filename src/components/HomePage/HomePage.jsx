@@ -6,7 +6,6 @@ import limit from '../../select/limit';
 import './HomePage.scss';
 import Loader from '../Loader/Loader';
 import imageConverter from 'akamai-image-converter'
-import usePrevious from '../Hook'
 const options = [
   { value: 20, label: 'Limit: 20' },
   { value: 40, label: 'Limit: 40' },
@@ -16,34 +15,32 @@ const options = [
 ];
 const HomePage = ({ filterArray }) => {
   const [photos, setPhotos] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOption, setselectedOption] = useState(20);
-  const prev = usePrevious(selectedOption)
-  useEffect(() => {
-      if (currentPage === 1 && selectedOption === 20 && prev === undefined) {
+  const [prev, setPrev] = useState(20)
+   useEffect(() => {
+      if (currentPage === 1 && selectedOption === 20 && prev === 20) {
       getPhotos(1, selectedOption).then(data => setPhotos(data));
     }
-    if (currentPage === 1 && selectedOption !== prev && selectedOption > 20) {
+    if (currentPage === 1 && selectedOption !== prev ) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
-    if (currentPage === 1 && selectedOption === prev && prev!== 20) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    if (currentPage === 1 && selectedOption === prev && selectedOption!==20) {
+     getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    }
+    if (currentPage === 2 && selectedOption !== prev) {
+     setPrev(selectedOption)
+     getPhotos(selectedOption, selectedOption).then(data => setPhotos(data));
+    }
+    if (currentPage === 2 && selectedOption === prev) {
+      getPhotos(2, selectedOption).then(data => setPhotos(data));
      }
-    if (currentPage < 1 && selectedOption === 20) {
-      setLoading(true);
-      getPhotos(currentPage, selectedOption)
-        .then(data => setPhotos(data))
-        .then(setLoading(false));
-   }
-    if (currentPage !== 1 && selectedOption !== prev) {
+    if (currentPage > 2 && selectedOption !== prev) {
       setCurrentPage(1)
-      getPhotos(1, selectedOption).then(data => setPhotos(data));
     }
-    if (currentPage !== 1 && selectedOption === prev) {
+   if (currentPage > 2 && selectedOption === prev) {
     getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-   
-    }
+   }
    
   }, [currentPage, selectedOption, prev]);
   const handlePageClick = data => {
@@ -83,12 +80,11 @@ const HomePage = ({ filterArray }) => {
           loadOptions={options}
           defaultValue={selectedOption}
           styles={limit}
-          onChange={({ value }) => setselectedOption(value)}
+          onChange={({ value }) => setselectedOption(prev => {setPrev(prev); return value})}
           placeholder="Limit: 20"
         />
       </div>
       <div className="galleryContainer">
-        {loading === false ? (
           <ul className="gallery">
             {photos &&
               photos.map(({ id, author}) => (
@@ -109,10 +105,7 @@ const HomePage = ({ filterArray }) => {
                 </li>
               ))}
           </ul>
-        ) : (
-          <Loader />
-        )}
-        <ReactPaginate
+         <ReactPaginate
          forcePage={currentPage-1}	
           previousLabel={'prev'}
           nextLabel={'next'}
