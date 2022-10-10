@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect} from 'react';
 import { getPhotos } from '../../services/photo-api';
 import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
