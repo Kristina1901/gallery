@@ -30,6 +30,9 @@ const HomePage = ({ filterArray }) => {
     if (currentPage === 1 && selectedOption !== prev) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
+    if (currentPage === 1 && selectedOption === prev && prevPage > currentPage) {
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    }
     if (
       currentPage === 1 &&
       selectedOption === prev &&
@@ -39,6 +42,10 @@ const HomePage = ({ filterArray }) => {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
     if (currentPage > 1 && selectedOption !== prev && prevPage === 1) {
+      setPrev(selectedOption);
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    }
+    if (currentPage > 1 && selectedOption === prev && prevPage === 1) {
       setPrev(selectedOption);
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
