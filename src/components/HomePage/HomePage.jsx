@@ -1,10 +1,10 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getPhotos } from '../../services/photo-api';
 import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
 import limit from '../../select/limit';
 import './HomePage.scss';
-import imageConverter from 'akamai-image-converter'
+import imageConverter from 'akamai-image-converter';
 const options = [
   { value: 20, label: 'Limit: 20' },
   { value: 40, label: 'Limit: 40' },
@@ -16,61 +16,70 @@ const HomePage = ({ filterArray }) => {
   const [photos, setPhotos] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOption, setselectedOption] = useState(20);
-  const [prev, setPrev] = useState(20)
-   useEffect(() => {
-      if (currentPage === 1 && selectedOption === 20 && prev === 20) {
+  const [prev, setPrev] = useState(20);
+  const [prevPage, setPrevPage] = useState(currentPage);
+  useEffect(() => {
+    if (
+      currentPage === 1 &&
+      selectedOption === 20 &&
+      prevPage === currentPage &&
+      selectedOption === prev
+    ) {
       getPhotos(1, selectedOption).then(data => setPhotos(data));
-      
     }
-    if (currentPage === 1 && selectedOption !== prev ) {
-      setPrev(selectedOption)
+    if (currentPage === 1 && selectedOption !== prev) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      
     }
-    if (currentPage === 2 && selectedOption !== prev) {
-     getPhotos(selectedOption, selectedOption).then(data => setPhotos(data));
+    if (
+      currentPage === 1 &&
+      selectedOption === prev &&
+      prevPage !== 1 &&
+      selectedOption !== 20
+    ) {
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
-    if (currentPage === 2 && selectedOption === prev) {
-      getPhotos(2, selectedOption).then(data => setPhotos(data));
-     }
-    if (currentPage >= 2 && selectedOption !== prev) {
-      setCurrentPage(1)
-      
+    if (currentPage > 1 && selectedOption !== prev && prevPage === 1) {
+      setPrev(selectedOption);
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
-   if (currentPage > 2 && selectedOption === prev) {
-    getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-    
-   }
-   
-  }, [currentPage, selectedOption, prev]);
+    if (currentPage > 1 && selectedOption !== prev && prevPage !== 1) {
+      setCurrentPage(1);
+      getPhotos(1, selectedOption).then(data => setPhotos(data));
+    }
+    if (currentPage > 1 && selectedOption === prev && prevPage !== 1) {
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    }
+  }, [currentPage, selectedOption, prev, prevPage]);
   const handlePageClick = data => {
     let num = data.selected + 1;
-    setCurrentPage(num);
+    setCurrentPage(prev => {
+      setPrevPage(prev);
+      return num;
+    });
   };
   function formatted(img) {
     const src = `https://picsum.photos/id//${img}/${360}/${240}`;
-    let result = imageConverter._withOutputFormat(src, 'webp')
-    return result
-
+    let result = imageConverter._withOutputFormat(src, 'webp');
+    return result;
   }
-  function pagination () {
-    let num = 0
+  function pagination() {
+    let num = 0;
     if (selectedOption === 20) {
-      num = 50
+      num = 50;
     }
-    if(selectedOption === 40) {
-      num = 25
+    if (selectedOption === 40) {
+      num = 25;
     }
-    if(selectedOption === 60) {
-      num = 17
+    if (selectedOption === 60) {
+      num = 17;
     }
-    if(selectedOption === 80) {
-      num = 13
+    if (selectedOption === 80) {
+      num = 13;
     }
-    if(selectedOption === 100) {
-      num = 10
+    if (selectedOption === 100) {
+      num = 10;
     }
-    return num
+    return num;
   }
   return (
     <div className="container">
@@ -80,33 +89,38 @@ const HomePage = ({ filterArray }) => {
           loadOptions={options}
           defaultValue={selectedOption}
           styles={limit}
-          onChange={({ value }) => setselectedOption(prev => {setPrev(prev); return value})}
+          onChange={({ value }) =>
+            setselectedOption(prev => {
+              setPrev(prev);
+              return value;
+            })
+          }
           placeholder="Limit: 20"
         />
       </div>
       <div className="galleryContainer">
-          <ul className="gallery">
-            {photos &&
-              photos.map(({ id, author}) => (
-                <li key={id} className="galleryListItem">
-                  <div className="modalName">
-                    <button
-                      className="buttonLike"
-                      onClick={() => filterArray(photos, id)}
-                    ></button>
-                  </div>
-                  <img
-                    className="galleryItem"
-                    alt={author}
-                    height={'240px'}
-                    src={formatted(id)}
-                    width={'360px'}
-                  />
-                </li>
-              ))}
-          </ul>
-         <ReactPaginate
-         forcePage={currentPage-1}	
+        <ul className="gallery">
+          {photos &&
+            photos.map(({ id, author }) => (
+              <li key={id} className="galleryListItem">
+                <div className="modalName">
+                  <button
+                    className="buttonLike"
+                    onClick={() => filterArray(photos, id)}
+                  ></button>
+                </div>
+                <img
+                  className="galleryItem"
+                  alt={author}
+                  height={'240px'}
+                  src={formatted(id)}
+                  width={'360px'}
+                />
+              </li>
+            ))}
+        </ul>
+        <ReactPaginate
+          forcePage={currentPage - 1}
           previousLabel={'prev'}
           nextLabel={'next'}
           breakLabel={'...'}
@@ -121,9 +135,7 @@ const HomePage = ({ filterArray }) => {
           activeClassName="activePage "
           previousLinkClassName="pageLinkWord"
           nextClassName={
-            currentPage === pagination()
-              ? 'buttonDisable'
-              : 'buttonNext'
+            currentPage === pagination() ? 'buttonDisable' : 'buttonNext'
           }
           nextLinkClassName="pageLinkWord"
         />
