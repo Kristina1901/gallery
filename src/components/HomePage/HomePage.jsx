@@ -18,6 +18,7 @@ const HomePage = ({ filterArray }) => {
   const [selectedOption, setselectedOption] = useState(20);
   const [prev, setPrev] = useState(20);
   const [prevPage, setPrevPage] = useState(currentPage);
+  const [trigger, setTrigger]= useState(false);
   useEffect(() => {
     if (
       currentPage === 1 &&
@@ -26,37 +27,32 @@ const HomePage = ({ filterArray }) => {
       selectedOption === prev
     ) {
       getPhotos(1, selectedOption).then(data => setPhotos(data));
+     }
+    if (currentPage === 1 && selectedOption !== prev && prevPage!==1) {
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
-    if (currentPage === 1 && selectedOption !== prev) {
+    if (currentPage === 1 && selectedOption !== prev && prevPage===1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
     if (currentPage === 1 && selectedOption === prev && prevPage > currentPage) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-    }
-    if (
-      currentPage === 1 &&
-      selectedOption === prev &&
-      prevPage !== 1 &&
-      selectedOption !== 20
-    ) {
+     }
+    if (currentPage > 1 && selectedOption === prev && prevPage === 1 && trigger===false) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-    }
+     }
     if (currentPage > 1 && selectedOption !== prev && prevPage === 1) {
+      setTrigger(true)
       setPrev(selectedOption);
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-    }
-    if (currentPage > 1 && selectedOption === prev && prevPage === 1) {
-      setPrev(selectedOption);
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-    }
+   }
     if (currentPage > 1 && selectedOption !== prev && prevPage !== 1) {
       setCurrentPage(1);
       getPhotos(1, selectedOption).then(data => setPhotos(data));
-    }
+   }
     if (currentPage > 1 && selectedOption === prev && prevPage !== 1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-    }
-  }, [currentPage, selectedOption, prev, prevPage]);
+     }
+  }, [currentPage, selectedOption, prev, prevPage, trigger]);
   const handlePageClick = data => {
     let num = data.selected + 1;
     setCurrentPage(prev => {
