@@ -20,13 +20,12 @@ const HomePage = ({ filterArray }) => {
    useEffect(() => {
       if (currentPage === 1 && selectedOption === 20 && prev === 20) {
       getPhotos(1, selectedOption).then(data => setPhotos(data));
+      
     }
     if (currentPage === 1 && selectedOption !== prev ) {
       setPrev(selectedOption)
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-    }
-    if (currentPage === 1 && selectedOption === prev && selectedOption!==20) {
-     getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+      
     }
     if (currentPage === 2 && selectedOption !== prev) {
      getPhotos(selectedOption, selectedOption).then(data => setPhotos(data));
@@ -36,9 +35,11 @@ const HomePage = ({ filterArray }) => {
      }
     if (currentPage >= 2 && selectedOption !== prev) {
       setCurrentPage(1)
+      
     }
    if (currentPage > 2 && selectedOption === prev) {
     getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    
    }
    
   }, [currentPage, selectedOption, prev]);
