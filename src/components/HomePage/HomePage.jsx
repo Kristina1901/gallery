@@ -27,30 +27,33 @@ const HomePage = ({ filterArray }) => {
       selectedOption === prev
     ) {
       getPhotos(1, selectedOption).then(data => setPhotos(data));
-     }
+    }
     if (currentPage === 1 && selectedOption !== prev && prevPage!==1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
     }
     if (currentPage === 1 && selectedOption !== prev && prevPage===1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+   
     }
-    if (currentPage === 1 && selectedOption === prev && prevPage > currentPage) {
+     if (currentPage > 1 && selectedOption === prev && prevPage === 1 && trigger===false) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-     }
-    if (currentPage > 1 && selectedOption === prev && prevPage === 1 && trigger===false) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+   
      }
     if (currentPage > 1 && selectedOption !== prev && prevPage === 1) {
       setTrigger(true)
       setPrev(selectedOption);
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+     
    }
     if (currentPage > 1 && selectedOption !== prev && prevPage !== 1) {
       setCurrentPage(1);
+      setPrev(selectedOption)
       getPhotos(1, selectedOption).then(data => setPhotos(data));
+     
    }
     if (currentPage > 1 && selectedOption === prev && prevPage !== 1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+     
      }
   }, [currentPage, selectedOption, prev, prevPage, trigger]);
   const handlePageClick = data => {
