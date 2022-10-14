@@ -59,6 +59,7 @@ const HomePage = ({ filterArray }) => {
       setTrigger(true);
       setPrev(selectedOption);
       if (prevValueCopy < selectedOption) {
+        setCurrentPage(1)
         getPhotos(1, selectedOption).then(data => setPhotos(data));
       } else {
         getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
@@ -68,6 +69,7 @@ const HomePage = ({ filterArray }) => {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
       setTrigger(false);
     }
+    
   }, [currentPage, selectedOption, prev, prevPage, trigger, prevValueCopy]);
   const handlePageClick = data => {
     let num = data.selected + 1;
