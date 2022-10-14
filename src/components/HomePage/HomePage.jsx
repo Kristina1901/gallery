@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { getPhotos } from '../../services/photo-api';
 import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
@@ -18,7 +18,8 @@ const HomePage = ({ filterArray }) => {
   const [selectedOption, setselectedOption] = useState(20);
   const [prev, setPrev] = useState(20);
   const [prevPage, setPrevPage] = useState(currentPage);
-  const [trigger, setTrigger]= useState(false);
+  const [trigger, setTrigger] = useState(false);
+  const [prevValueCopy, setPrevalueCopy] = useState(20);
   useEffect(() => {
     if (
       currentPage === 1 &&
@@ -27,42 +28,47 @@ const HomePage = ({ filterArray }) => {
       selectedOption === prev
     ) {
       getPhotos(1, selectedOption).then(data => setPhotos(data));
-     
     }
-    if (currentPage === 1 && selectedOption === prev && prevPage!==1 && trigger===false) {
+    if (
+      currentPage === 1 &&
+      selectedOption === prev &&
+      prevPage !== 1 &&
+      trigger === false
+    ) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      
     }
-    if (currentPage === 1 && selectedOption !== prev && prevPage!==1) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-    }
-    if (currentPage === 1 && selectedOption !== prev && prevPage===1) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-     
-    }
-     if (currentPage > 1 && selectedOption === prev && prevPage === 1 && trigger===false) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      
-   
-     }
-    if (currentPage > 1 && selectedOption !== prev && prevPage === 1) {
-      setTrigger(true)
-      setPrev(selectedOption);
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-     
-     
-   }
     if (currentPage > 1 && selectedOption !== prev && prevPage !== 1) {
       setCurrentPage(1);
-      setPrev(selectedOption)
-         
-   }
+      setPrev(selectedOption);
+    }
+    if (currentPage === 1 && selectedOption !== prev && prevPage !== 1) {
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    }
+    if (currentPage === 1 && selectedOption !== prev && prevPage === 1) {
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    }
+    if (
+      currentPage > 1 &&
+      selectedOption === prev &&
+      prevPage === 1 &&
+      trigger === false
+    ) {
+      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+    }
+    if (currentPage > 1 && selectedOption !== prev && prevPage === 1) {
+      setTrigger(true);
+      setPrev(selectedOption);
+      if (prevValueCopy < selectedOption) {
+        getPhotos(1, selectedOption).then(data => setPhotos(data));
+      } else {
+        getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+      }
+    }
     if (currentPage > 1 && selectedOption === prev && prevPage !== 1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      setTrigger(false)
-           
-     }
-  }, [currentPage, selectedOption, prev, prevPage, trigger]);
+      setTrigger(false);
+    }
+  }, [currentPage, selectedOption, prev, prevPage, trigger, prevValueCopy]);
   const handlePageClick = data => {
     let num = data.selected + 1;
     setCurrentPage(prev => {
@@ -105,6 +111,7 @@ const HomePage = ({ filterArray }) => {
           onChange={({ value }) =>
             setselectedOption(prev => {
               setPrev(prev);
+              setPrevalueCopy(prev);
               return value;
             })
           }
