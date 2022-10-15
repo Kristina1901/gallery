@@ -28,6 +28,7 @@ const HomePage = ({ filterArray }) => {
       selectedOption === prev
     ) {
       getPhotos(1, selectedOption).then(data => setPhotos(data));
+      
     }
     if (
       currentPage === 1 &&
@@ -36,16 +37,20 @@ const HomePage = ({ filterArray }) => {
       trigger === false
     ) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+     
     }
     if (currentPage > 1 && selectedOption !== prev && prevPage !== 1) {
       setCurrentPage(1);
       setPrev(selectedOption);
+     
     }
     if (currentPage === 1 && selectedOption !== prev && prevPage !== 1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+      
     }
     if (currentPage === 1 && selectedOption !== prev && prevPage === 1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+      
     }
     if (
       currentPage > 1 &&
@@ -54,6 +59,7 @@ const HomePage = ({ filterArray }) => {
       trigger === false
     ) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+      
     }
     if (currentPage > 1 && selectedOption !== prev && prevPage === 1) {
       setTrigger(true);
@@ -61,15 +67,18 @@ const HomePage = ({ filterArray }) => {
       if (prevValueCopy < selectedOption) {
         setCurrentPage(1)
         getPhotos(1, selectedOption).then(data => setPhotos(data));
+       
       } else {
-        getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+      
       }
     }
     if (currentPage > 1 && selectedOption === prev && prevPage !== 1) {
       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
       setTrigger(false);
+     
     }
-    
+      
   }, [currentPage, selectedOption, prev, prevPage, trigger, prevValueCopy]);
   const handlePageClick = data => {
     let num = data.selected + 1;
