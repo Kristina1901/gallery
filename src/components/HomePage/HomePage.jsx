@@ -20,8 +20,7 @@ const HomePage = ({ filterArray }) => {
   useEffect(() => {
      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
      setPrev(selectedOption)
-     console.log(!selectedOption)
-     if (selectedOption !== prev) {
+    if (selectedOption !== prev) {
       setCurrentPage(1)
      }
   }, [currentPage, selectedOption, prev]);
