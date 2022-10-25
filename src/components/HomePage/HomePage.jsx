@@ -17,75 +17,17 @@ const HomePage = ({ filterArray }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOption, setselectedOption] = useState(20);
   const [prev, setPrev] = useState(20);
-  const [prevPage, setPrevPage] = useState(currentPage);
-  const [trigger, setTrigger] = useState(false);
-  const [prevValueCopy, setPrevalueCopy] = useState(20);
   useEffect(() => {
-    if (
-      currentPage === 1 &&
-      selectedOption === 20 &&
-      prevPage === currentPage &&
-      selectedOption === prev
-    ) {
-      getPhotos(1, selectedOption).then(data => setPhotos(data));
-      
-    }
-    if (
-      currentPage === 1 &&
-      selectedOption === prev &&
-      prevPage !== 1 &&
-      trigger === false
-    ) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-     
-    }
-    if (currentPage > 1 && selectedOption !== prev && prevPage !== 1) {
-      setCurrentPage(1);
-      setPrev(selectedOption);
-     
-    }
-    if (currentPage === 1 && selectedOption !== prev && prevPage !== 1) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      
-    }
-    if (currentPage === 1 && selectedOption !== prev && prevPage === 1) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      
-    }
-    if (
-      currentPage > 1 &&
-      selectedOption === prev &&
-      prevPage === 1 &&
-      trigger === false
-    ) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      
-    }
-    if (currentPage > 1 && selectedOption !== prev && prevPage === 1) {
-      setTrigger(true);
-      setPrev(selectedOption);
-      if (prevValueCopy < selectedOption) {
-        setCurrentPage(1)
-        getPhotos(1, selectedOption).then(data => setPhotos(data));
-       
-      } else {
-       getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      
-      }
-    }
-    if (currentPage > 1 && selectedOption === prev && prevPage !== 1) {
-      getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
-      setTrigger(false);
-     
-    }
-      
-  }, [currentPage, selectedOption, prev, prevPage, trigger, prevValueCopy]);
-  const handlePageClick = data => {
+     getPhotos(currentPage, selectedOption).then(data => setPhotos(data));
+     setPrev(selectedOption)
+     console.log(!selectedOption)
+     if (selectedOption !== prev) {
+      setCurrentPage(1)
+     }
+  }, [currentPage, selectedOption, prev]);
+   const handlePageClick = data => {
     let num = data.selected + 1;
-    setCurrentPage(prev => {
-      setPrevPage(prev);
-      return num;
-    });
+    setCurrentPage(num);
   };
   function formatted(img) {
     const src = `https://picsum.photos/id//${img}/${360}/${240}`;
@@ -122,7 +64,6 @@ const HomePage = ({ filterArray }) => {
           onChange={({ value }) =>
             setselectedOption(prev => {
               setPrev(prev);
-              setPrevalueCopy(prev);
               return value;
             })
           }
